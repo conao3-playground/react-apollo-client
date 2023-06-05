@@ -1,9 +1,10 @@
 'use client';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { gql } from '../../__generated__/gql';
 
-const LAUNCHES_LIST = gql`
-  {
+const LAUNCHES_LIST = gql(/* GraphQL */`
+  query LaunchList {
     launchesPast(limit: 10) {
       id
       mission_name
@@ -20,7 +21,7 @@ const LAUNCHES_LIST = gql`
       }
     }
   }
-  `;
+`);
 
 export function LaunchesList() {
   const { loading, error, data } = useQuery(LAUNCHES_LIST);
@@ -30,8 +31,8 @@ export function LaunchesList() {
 
   return (
     <ul>
-      {data.launchesPast.map((launch: any) => (
-        <li key={launch.id}>{launch.mission_name}</li>
+      {data?.launchesPast?.map((launch) => (
+        <li key={launch?.id}>{launch?.mission_name}</li>
       ))}
     </ul>
   )
